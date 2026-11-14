@@ -112,7 +112,7 @@ function Home() {
                 <div className="flex items-center gap-1 text-sm font-bold">
                   Amara Okafor <BadgeCheck className="size-4 text-leaf" />
                 </div>
-                <div className="text-xs text-muted-foreground">IB Maths AA HL · 96% match</div>
+                <div className="text-xs text-muted-foreground">IB Maths AA HL · Former IB examiner</div>
               </div>
             </div>
             <div className="absolute top-6 -right-2 flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-lift md:-right-6">
