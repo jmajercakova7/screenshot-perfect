@@ -21,9 +21,11 @@ export type Database = {
           id: string
           learner_id: string
           preferred_times: string
+          responded_at: string | null
           status: string
           subject: string
           tutor_id: string
+          tutor_reply: string | null
         }
         Insert: {
           created_at?: string
@@ -31,9 +33,11 @@ export type Database = {
           id?: string
           learner_id?: string
           preferred_times?: string
+          responded_at?: string | null
           status?: string
           subject: string
           tutor_id: string
+          tutor_reply?: string | null
         }
         Update: {
           created_at?: string
@@ -41,9 +45,11 @@ export type Database = {
           id?: string
           learner_id?: string
           preferred_times?: string
+          responded_at?: string | null
           status?: string
           subject?: string
           tutor_id?: string
+          tutor_reply?: string | null
         }
         Relationships: [
           {
@@ -61,6 +67,7 @@ export type Database = {
           created_at: string
           full_name: string
           id: string
+          lesson_preferences: Json
           main_subject: string | null
           updated_at: string
         }
@@ -69,6 +76,7 @@ export type Database = {
           created_at?: string
           full_name?: string
           id: string
+          lesson_preferences?: Json
           main_subject?: string | null
           updated_at?: string
         }
@@ -77,6 +85,7 @@ export type Database = {
           created_at?: string
           full_name?: string
           id?: string
+          lesson_preferences?: Json
           main_subject?: string | null
           updated_at?: string
         }
@@ -99,6 +108,8 @@ export type Database = {
           slug: string
           subjects: string[]
           timezone: string
+          user_id: string | null
+          verification_status: string
           verifications: string[]
           verified: boolean
         }
@@ -118,6 +129,8 @@ export type Database = {
           slug: string
           subjects?: string[]
           timezone: string
+          user_id?: string | null
+          verification_status?: string
           verifications?: string[]
           verified?: boolean
         }
@@ -137,8 +150,73 @@ export type Database = {
           slug?: string
           subjects?: string[]
           timezone?: string
+          user_id?: string | null
+          verification_status?: string
           verifications?: string[]
           verified?: boolean
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      verification_documents: {
+        Row: {
+          created_at: string
+          doc_type: string
+          file_name: string
+          file_path: string
+          id: string
+          mime_type: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          reviewer_note: string | null
+          size_bytes: number
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          doc_type: string
+          file_name: string
+          file_path: string
+          id?: string
+          mime_type: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          reviewer_note?: string | null
+          size_bytes: number
+          status?: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          doc_type?: string
+          file_name?: string
+          file_path?: string
+          id?: string
+          mime_type?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          reviewer_note?: string | null
+          size_bytes?: number
+          status?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -147,10 +225,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_tutor_owner: { Args: { _tutor_id: string }; Returns: boolean }
+      learner_requested_me: { Args: { _learner_id: string }; Returns: boolean }
+      refresh_tutor_verification: {
+        Args: { _user_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -277,6 +367,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
