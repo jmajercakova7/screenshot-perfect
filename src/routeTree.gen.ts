@@ -15,8 +15,13 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedMatchRouteImport } from './routes/_authenticated/match'
+import { Route as AuthenticatedReviewRouteImport } from './routes/_authenticated/review'
 import { Route as TutorsIndexRouteImport } from './routes/tutors.index'
 import { Route as TutorsSlugRouteImport } from './routes/tutors.$slug'
+import { Route as AuthenticatedTeachIndexRouteImport } from './routes/_authenticated/teach.index'
+import { Route as AuthenticatedTeachInboxRouteImport } from './routes/_authenticated/teach.inbox'
+import { Route as AuthenticatedTeachVerificationRouteImport } from './routes/_authenticated/teach.verification'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -47,6 +52,16 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMatchRoute = AuthenticatedMatchRouteImport.update({
+  id: '/match',
+  path: '/match',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedReviewRoute = AuthenticatedReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const TutorsIndexRoute = TutorsIndexRouteImport.update({
   id: '/tutors/',
   path: '/tutors/',
@@ -57,6 +72,22 @@ const TutorsSlugRoute = TutorsSlugRouteImport.update({
   path: '/tutors/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedTeachIndexRoute = AuthenticatedTeachIndexRouteImport.update({
+  id: '/teach/',
+  path: '/teach/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTeachInboxRoute = AuthenticatedTeachInboxRouteImport.update({
+  id: '/teach/inbox',
+  path: '/teach/inbox',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTeachVerificationRoute =
+  AuthenticatedTeachVerificationRouteImport.update({
+    id: '/teach/verification',
+    path: '/teach/verification',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -64,8 +95,13 @@ export interface FileRoutesByFullPath {
   '/how-it-works': typeof HowItWorksRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/match': typeof AuthenticatedMatchRoute
+  '/review': typeof AuthenticatedReviewRoute
   '/tutors/$slug': typeof TutorsSlugRoute
   '/tutors/': typeof TutorsIndexRoute
+  '/teach/inbox': typeof AuthenticatedTeachInboxRoute
+  '/teach/verification': typeof AuthenticatedTeachVerificationRoute
+  '/teach/': typeof AuthenticatedTeachIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -73,8 +109,13 @@ export interface FileRoutesByTo {
   '/how-it-works': typeof HowItWorksRoute
   '/reset-password': typeof ResetPasswordRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/match': typeof AuthenticatedMatchRoute
+  '/review': typeof AuthenticatedReviewRoute
   '/tutors/$slug': typeof TutorsSlugRoute
   '/tutors': typeof TutorsIndexRoute
+  '/teach/inbox': typeof AuthenticatedTeachInboxRoute
+  '/teach/verification': typeof AuthenticatedTeachVerificationRoute
+  '/teach': typeof AuthenticatedTeachIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -84,8 +125,13 @@ export interface FileRoutesById {
   '/how-it-works': typeof HowItWorksRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/match': typeof AuthenticatedMatchRoute
+  '/_authenticated/review': typeof AuthenticatedReviewRoute
   '/tutors/$slug': typeof TutorsSlugRoute
   '/tutors/': typeof TutorsIndexRoute
+  '/_authenticated/teach/inbox': typeof AuthenticatedTeachInboxRoute
+  '/_authenticated/teach/verification': typeof AuthenticatedTeachVerificationRoute
+  '/_authenticated/teach/': typeof AuthenticatedTeachIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -95,8 +141,13 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/reset-password'
     | '/dashboard'
+    | '/match'
+    | '/review'
     | '/tutors/$slug'
     | '/tutors/'
+    | '/teach/inbox'
+    | '/teach/verification'
+    | '/teach/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -104,8 +155,13 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/reset-password'
     | '/dashboard'
+    | '/match'
+    | '/review'
     | '/tutors/$slug'
     | '/tutors'
+    | '/teach/inbox'
+    | '/teach/verification'
+    | '/teach'
   id:
     | '__root__'
     | '/'
@@ -114,8 +170,13 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/reset-password'
     | '/_authenticated/dashboard'
+    | '/_authenticated/match'
+    | '/_authenticated/review'
     | '/tutors/$slug'
     | '/tutors/'
+    | '/_authenticated/teach/inbox'
+    | '/_authenticated/teach/verification'
+    | '/_authenticated/teach/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -172,6 +233,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/match': {
+      id: '/_authenticated/match'
+      path: '/match'
+      fullPath: '/match'
+      preLoaderRoute: typeof AuthenticatedMatchRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/review': {
+      id: '/_authenticated/review'
+      path: '/review'
+      fullPath: '/review'
+      preLoaderRoute: typeof AuthenticatedReviewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/tutors/': {
       id: '/tutors/'
       path: '/tutors'
@@ -186,15 +261,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TutorsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/teach/': {
+      id: '/_authenticated/teach/'
+      path: '/teach'
+      fullPath: '/teach/'
+      preLoaderRoute: typeof AuthenticatedTeachIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/teach/inbox': {
+      id: '/_authenticated/teach/inbox'
+      path: '/teach/inbox'
+      fullPath: '/teach/inbox'
+      preLoaderRoute: typeof AuthenticatedTeachInboxRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/teach/verification': {
+      id: '/_authenticated/teach/verification'
+      path: '/teach/verification'
+      fullPath: '/teach/verification'
+      preLoaderRoute: typeof AuthenticatedTeachVerificationRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedMatchRoute: typeof AuthenticatedMatchRoute
+  AuthenticatedReviewRoute: typeof AuthenticatedReviewRoute
+  AuthenticatedTeachInboxRoute: typeof AuthenticatedTeachInboxRoute
+  AuthenticatedTeachVerificationRoute: typeof AuthenticatedTeachVerificationRoute
+  AuthenticatedTeachIndexRoute: typeof AuthenticatedTeachIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedMatchRoute: AuthenticatedMatchRoute,
+  AuthenticatedReviewRoute: AuthenticatedReviewRoute,
+  AuthenticatedTeachInboxRoute: AuthenticatedTeachInboxRoute,
+  AuthenticatedTeachVerificationRoute: AuthenticatedTeachVerificationRoute,
+  AuthenticatedTeachIndexRoute: AuthenticatedTeachIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
